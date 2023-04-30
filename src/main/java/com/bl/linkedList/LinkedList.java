@@ -1,12 +1,18 @@
 package com.bl.linkedList;
+
 public class LinkedList {
-    static class Node {
+    static class Node implements Comparable<Node> {
         int data;
         Node next;
 
         public Node(int data) {
             this.data = data;
             this.next = null;
+        }
+
+        @Override
+        public int compareTo(Node other) {
+            return this.data - other.data;
         }
     }
 
@@ -19,17 +25,20 @@ public class LinkedList {
     public void add(int data) {
         Node newNode = new Node(data);
 
-        if (head == null) {
+        if (head == null || newNode.compareTo(head) < 0) {
+            newNode.next = head;
             head = newNode;
-        } else {
-            Node current = head;
-
-            while (current.next != null) {
-                current = current.next;
-            }
-
-            current.next = newNode;
+            return;
         }
+
+        Node current = head;
+
+        while (current.next != null && current.next.compareTo(newNode) < 0) {
+            current = current.next;
+        }
+
+        newNode.next = current.next;
+        current.next = newNode;
     }
 
     public void delete(int key) {
@@ -87,7 +96,7 @@ public class LinkedList {
         list.add(40);
         list.add(70);
 
-        System.out.println("Original LinkedList:");
+        System.out.println("Sorted LinkedList:");
         list.printList();
 
         list.delete(40);
