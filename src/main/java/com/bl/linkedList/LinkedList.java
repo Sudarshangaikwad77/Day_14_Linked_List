@@ -1,5 +1,4 @@
 package com.bl.linkedList;
-
 public class LinkedList {
     Node head;
 
@@ -13,11 +12,22 @@ public class LinkedList {
         }
     }
 
-    public void pop() {
-        if (head == null) {
-            return;
+    public void search(int value) {
+        Node current = head;
+        boolean found = false;
+
+        while (current != null) {
+            if (current.data == value) {
+                found = true;
+                break;
+            }
+            current = current.next;
         }
-        head = head.next;
+
+        if (found)
+            System.out.println("value " + value + " found in the list.");
+        else
+            System.out.println("value " + value + " not found in the list.");
     }
 
     public static void main(String[] args) {
@@ -31,12 +41,6 @@ public class LinkedList {
         list.head.next = second;
         second.next = third;
 
-        list.pop();
-
-        Node n = list.head;
-        while (n != null) {
-            System.out.print(n.data + " ");
-            n = n.next;
-        }
+        list.search(30);
     }
 }
