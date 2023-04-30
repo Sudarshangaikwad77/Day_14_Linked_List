@@ -1,46 +1,101 @@
 package com.bl.linkedList;
 public class LinkedList {
-    Node head;
-
     static class Node {
         int data;
         Node next;
 
-        Node(int d) {
-            data = d;
-            next = null;
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
         }
     }
 
-    public void search(int value) {
-        Node current = head;
-        boolean found = false;
+    Node head;
 
-        while (current != null) {
-            if (current.data == value) {
-                found = true;
-                break;
+    public LinkedList() {
+        this.head = null;
+    }
+
+    public void add(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+
+            while (current.next != null) {
+                current = current.next;
             }
+
+            current.next = newNode;
+        }
+    }
+
+    public void delete(int key) {
+        if (head == null) {
+            return;
+        }
+
+        if (head.data == key) {
+            head = head.next;
+            return;
+        }
+
+        Node prev = null;
+        Node current = head;
+
+        while (current != null && current.data != key) {
+            prev = current;
             current = current.next;
         }
 
-        if (found)
-            System.out.println("value " + value + " found in the list.");
-        else
-            System.out.println("value " + value + " not found in the list.");
+        if (current == null) {
+            return;
+        }
+
+        prev.next = current.next;
+    }
+
+    // Method to get the size of the LinkedList
+    public int size() {
+        int count = 0;
+        Node current = head;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        return count;
+    }
+
+    public void printList() {
+        Node current = head;
+
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+
+        System.out.println();
     }
 
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
-        System.out.println("Welcome to Linked List Practice Problem");
 
-        list.head = new Node(56);
-        Node second = new Node(30);
-        Node third = new Node(70);
+        list.add(56);
+        list.add(30);
+        list.add(40);
+        list.add(70);
 
-        list.head.next = second;
-        second.next = third;
+        System.out.println("Original LinkedList:");
+        list.printList();
 
-        list.search(30);
+        list.delete(40);
+
+        System.out.println("LinkedList after deleting node with key value of 40:");
+        list.printList();
+
+        System.out.println("Size of the LinkedList: " + list.size());
     }
 }
+
