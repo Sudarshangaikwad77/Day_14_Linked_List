@@ -1,4 +1,5 @@
 package com.bl.linkedList;
+
 public class LinkedList {
     Node head;
 
@@ -12,35 +13,53 @@ public class LinkedList {
         }
     }
 
-    public void search(int value) {
-        Node current = head;
-        boolean found = false;
+    public void insertAfter(Node prevNode, int newData) {
+        if (prevNode == null) {
+            System.out.println("previous node cannot be null");
+            return;
+        }
+        Node newNode = new Node(newData);
+        newNode.next = prevNode.next;
+        prevNode.next = newNode;
+    }
 
-        while (current != null) {
-            if (current.data == value) {
-                found = true;
-                break;
-            }
+    public void append(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        Node current = head;
+        while (current.next != null) {
             current = current.next;
         }
+        current.next = newNode;
+    }
 
-        if (found)
-            System.out.println("value " + value + " found in the list.");
-        else
-            System.out.println("value " + value + " not found in the list.");
+    public void printList() {
+        Node tNode = head;
+        while (tNode != null) {
+            System.out.print(tNode.data + " ");
+            tNode = tNode.next;
+        }
     }
 
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
         System.out.println("Welcome to Linked List Practice Problem");
 
-        list.head = new Node(56);
-        Node second = new Node(30);
-        Node third = new Node(70);
+        list.append(56);
+        list.append(30);
+        list.append(70);
 
-        list.head.next = second;
-        second.next = third;
+        System.out.println("Linked list before insertion: ");
+        list.printList();
 
-        list.search(30);
+        Node nodeWith30 = list.head.next;
+
+        list.insertAfter(nodeWith30, 40);
+
+        System.out.println("\nLinked list after insertion:");
+        list.printList();
     }
 }
